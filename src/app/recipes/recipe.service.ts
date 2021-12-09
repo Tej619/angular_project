@@ -9,12 +9,21 @@ import { Recipe } from "./recipe.model";
 export class RecipeService{
   recipesChanged= new Subject<Recipe[]>();
 
+  /*
     private recipes: Recipe[] = [
         new Recipe('Grilled Chicken','Eat chicken do nothing','https://www.liveroughcreek.com/wp-content/uploads/2019/09/Rough-Creek-Lodge-Grilled-Quail-Recipe-Texas-Hill-Country-Vacation-Homes-for-Sale.jpg',[new Ingredient('Chicken',5),new Ingredient('Barbeque Sauce',5)]),
         new Recipe('Chicken Cheese Nachos','Khake Nacho','https://kimspireddiy.com/wp-content/uploads/2020/12/beef-nachos-1.jpg',[new Ingredient('Nacho',100),new Ingredient('White Chicken',2)])
       ];
+      */
+
+      private recipes: Recipe[]=[];
 
       constructor(private slService: ShoppingListService){}
+
+      setRecipes(recipes : Recipe[]){
+       this.recipes= recipes;
+       this.recipesChanged.next(this.recipes.slice());
+      }
 
       getRecipes() {
           return this.recipes.slice();
