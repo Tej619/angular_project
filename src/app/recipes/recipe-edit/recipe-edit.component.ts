@@ -51,11 +51,12 @@ export class RecipeEditComponent implements OnInit {
   onAddIngredient(){
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
-        'name': new FormControl(null, Validators.required),
-        'amount': new FormControl(null,[
+        name: new FormControl(null, Validators.required),
+        amount: new FormControl(null,[
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)
-          ])
+          Validators.pattern(/^[1-9]+[0-9]*$/),
+          ]),
+          numbers: new FormControl(null, Validators.required)
       })
     );
   }
@@ -68,8 +69,10 @@ export class RecipeEditComponent implements OnInit {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
 
-  get controls() { 
-    return (<FormArray>this.recipeForm.get('ingredients')).controls;
+  get ingredientsControls(){
+
+   // return (<FormArray>this.recipeForm.get('ingredients')).controls;
+   return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
   
 
@@ -94,8 +97,9 @@ export class RecipeEditComponent implements OnInit {
               'name': new FormControl(ingredient.name, Validators.required),
               'amount': new FormControl(ingredient.amount, [
                 Validators.required,
-                Validators.pattern(/^[1-9]+[0-9]*$/)
-                ])
+                Validators.pattern(/^[1-9]+[0-9]*$/),
+                ]),
+                'numbers': new FormControl(ingredient.numbers,Validators.required)
             })
           );
         }
@@ -104,10 +108,10 @@ export class RecipeEditComponent implements OnInit {
 
 
     this.recipeForm = new FormGroup({
-      'name': new FormControl(recipeName, Validators.required),
-      'imagePath': new FormControl(recipeImagePath, Validators.required),
-      'description': new FormControl(recipeDescription, Validators.required),
-      'ingredients': recipeIngredients
+      name: new FormControl(recipeName, Validators.required),
+      imagePath: new FormControl(recipeImagePath, Validators.required),
+      description: new FormControl(recipeDescription, Validators.required),
+      ingredients: recipeIngredients
     });
   }
 
